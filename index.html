@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaptionLagbe - বাংলা ক্যাপশন ও স্ট্যাটাস হাব</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SolaimanLipi:wght@400;500;600&family=Hind+Siliguri:wght@300;400;500&family=Kalpurush&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating Background Animation -->
+    <div id="floating-bg"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-quote-left"></i>
+                <span>CaptionLagbe</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">
+                    <i class="fas fa-home"></i> হোম
+                </a>
+                <a href="#" class="nav-link" data-page="profile">
+                    <i class="fas fa-user"></i> প্রোফাইল
+                </a>
+                <a href="#" class="nav-link" id="upload-link">
+                    <i class="fas fa-cloud-upload-alt"></i> আপলোড
+                </a>
+            </div>
+
+            <a href="#" class="login-btn-header" id="login-btn">
+                <i class="fas fa-sign-in-alt"></i> লগ-ইন
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>আপনার মুহূর্তের জন্য সেরা বাংলা ক্যাপশন</h1>
+            <p>প্রেম, বিরহ, মজা, অ্যাটিটিউড - যেকোনো মুহূর্তের জন্য শতাধিক ক্যাপশন একত্রে</p>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" class="search-bar" id="search-bar" placeholder="আপনার পছন্দের ক্যাপশন খুঁজুন...">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filter -->
+        <div class="category-filter" id="category-filter">
+            <button class="category-btn active" data-category="all">সব ক্যাপশন</button>
+            <button class="category-btn" data-category="love">❤️ প্রেম</button>
+            <button class="category-btn" data-category="sad">💔 বিরহ</button>
+            <button class="category-btn" data-category="funny">😂 মজা</button>
+            <button class="category-btn" data-category="attitude">👑 অ্যাটিটিউড</button>
+            <button class="category-btn" data-category="islamic">🤲 ইসলামিক</button>
+            <button class="category-btn" data-category="inspirational">💡 অনুপ্রেরণা</button>
+            <button class="category-btn" data-category="friendship">👫 বন্ধুত্ব</button>
+            <button class="category-btn" data-category="motivational">💪 উৎসাহ</button>
+            <button class="category-btn" data-category="heart-breaking">🥀 হৃদয়বিদারক</button>
+            <button class="category-btn" data-category="flirty">😊 কিউট</button>
+            <button class="category-btn" data-category="hot">🔥 হট</button>
+            <button class="category-btn" data-category="cynical">😒 সিনিক্যাল</button>
+            <button class="category-btn" data-category="independent">💁 স্বাধীন</button>
+            <button class="category-btn" data-category="money">💰 অর্থ</button>
+            <button class="category-btn" data-category="education">📚 শিক্ষা</button>
+            <button class="category-btn" data-category="health">💪 স্বাস্থ্য</button>
+            <button class="category-btn" data-category="travel">✈️ ভ্রমণ</button>
+            <button class="category-btn" data-category="food">🍔 খাবার</button>
+            <button class="category-btn" data-category="music">🎵 সঙ্গীত</button>
+            <button class="category-btn" data-category="sports">⚽ খেলা</button>
+            <button class="category-btn" data-category="midnight">🌙 মধ্যরাত</button>
+            <button class="category-btn" data-category="single">💔 সিংগেল</button>
+            <button class="category-btn" data-category="career">💼 ক্যারিয়ার</button>
+            <button class="category-btn" data-category="fashion">👗 ফ্যাশন</button>
+            <button class="category-btn" data-category="social">📱 সোশ্যাল</button>
+            <button class="category-btn" data-category="environment">🌍 পরিবেশ</button>
+            <button class="category-btn" data-category="religion">🙏 ধর্ম</button>
+            <button class="category-btn" data-category="parenthood">👶 পিতৃত্ব</button>
+            <button class="category-btn" data-category="seasonal">🌸 সিজন</button>
+            <button class="category-btn" data-category="romantic">💕 রোমান্টিক</button>
+            <button class="category-btn" data-category="family">👨‍👩‍👧 পরিবার</button>
+            <button class="category-btn" data-category="life">🌟 জীবন</button>
+        </div>
+
+        <!-- Caption Cards Grid -->
+        <div class="caption-grid" id="caption-grid">
+            <!-- Caption cards will be dynamically generated here -->
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container">
+            <button class="load-more-btn" id="load-more">
+                আরও ক্যাপশন দেখুন <i class="fas fa-arrow-down"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2023 CaptionLagbe - বাংলা ক্যাপশন ও স্ট্যাটাস হাব</p>
+        <p>সকল অধিকার সংরক্ষিত</p>
+    </footer>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">লগইন / সাইন আপ</h2>
+                <button class="close-btn" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="auth-form">
+                <div class="form-group">
+                    <label class="form-label" for="email">ইমেইল</label>
+                    <input type="email" class="form-input" id="email" placeholder="আপনার ইমেইল দিন" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">পাসওয়ার্ড</label>
+                    <input type="password" class="form-input" id="password" placeholder="আপনার পাসওয়ার্ড দিন" required>
+                </div>
+                
+                <div class="social-login">
+                    
+                    <button type="button" class="social-btn google-btn">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="social-btn facebook-btn">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submit-auth">
+                    লগইন করুন
+                </button>
+                
+                <p style="text-align: center; margin-top: 1rem;">
+                    অ্যাকাউন্ট নেই? <a href="#" id="toggle-form">সাইন আপ করুন</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">ক্যাপশন কপি করা হয়েছে!</span>
+    </div>
+    <!-- Scripts: User Storage, Authentication, and Main App -->
+    <script src="userStorage.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
