@@ -81,7 +81,8 @@ body::before {
     75% { transform: translate(-20px, 50px) rotate(270deg); }
 }
 
-/* Header & Navigation */
+/* ================= HEADER & NAVIGATION ================= */
+
 header {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
@@ -100,6 +101,7 @@ header {
     margin: 0 auto;
 }
 
+/* Logo */
 .logo {
     font-family: 'Kalpurush', sans-serif;
     font-size: 1.8rem;
@@ -117,6 +119,7 @@ header {
     font-size: 2rem;
 }
 
+/* Desktop Nav */
 .nav-links {
     display: flex;
     gap: 2rem;
@@ -154,6 +157,7 @@ header {
     color: transparent;
 }
 
+/* Login */
 .login-btn-header {
     background: var(--secondary-gradient);
     color: #fff;
@@ -173,8 +177,59 @@ header {
     box-shadow: 0 6px 12px var(--shadow-glow);
 }
 
-.login-btn-header i {
-    font-size: 1.1rem;
+/* ===== MOBILE MENU ADD ===== */
+
+/* Hamburger */
+.menu-toggle {
+    display: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+/* Mobile dropdown menu */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px var(--shadow);
+    padding: 1rem 2rem;
+}
+
+.mobile-menu a {
+    padding: 0.8rem 0;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.mobile-menu a:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu.show {
+    display: flex;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    .nav-container {
+        flex-direction: row;
+    }
+
+    /* hide desktop nav */
+    .nav-links {
+        display: none;
+    }
+
+    /* show hamburger */
+    .menu-toggle {
+        display: block;
+    }
 }
 
 /* Theme Toggle */
@@ -689,3 +744,45 @@ footer {
         flex-direction: column;
     }
 }
+
+
+
+/* ===== FORCE MOBILE HEADER LAYOUT FIX ===== */
+@media (max-width: 768px) {
+
+    header {
+        padding: 0.8rem 1rem;
+    }
+
+    .nav-container {
+        display: flex;
+        flex-direction: row;          /* 🔥 MOST IMPORTANT */
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    /* Hamburger left */
+    .menu-toggle {
+        display: block;
+        order: 1;
+    }
+
+    /* Logo center */
+    .logo {
+        order: 2;
+        margin: 0 auto;
+    }
+
+    /* Login right */
+    .login-btn-header {
+        order: 3;
+    }
+
+    /* Hide desktop nav */
+    .nav-links {
+        display: none;
+    }
+}
+
+

@@ -1,5 +1,6 @@
-// Authentication Handler
-// This file manages authentication UI and logic
+// Authentication Handler (FINAL FIXED VERSION)
+// Email/Password -> localStorage (demo)
+// Google Login -> Firebase Auth
 
 class AuthHandler {
     constructor() {
@@ -10,51 +11,81 @@ class AuthHandler {
         this.toggleForm = document.getElementById('toggle-form');
         this.modalTitle = document.getElementById('modal-title');
         this.submitAuth = document.getElementById('submit-auth');
+
         this.isLoginMode = true;
         this.init();
     }
 
     init() {
         this.attachEventListeners();
-        this.updateUIForLoggedInUser();
+        this.refreshLoginButton();
     }
 
     attachEventListeners() {
-        // Open login modal
-        this.loginBtn.addEventListener('click', () => {
-            this.openAuthModal();
+        // Login / Logout button
+        this.loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentUser = userStorage.getCurrentUser();
+            if (currentUser) {
+                this.handleLogout();
+            } else {
+                this.openAuthModal();
+            }
         });
 
         // Close modal
-        this.closeModal.addEventListener('click', () => {
-            this.closeAuthModal();
-        });
+        this.closeModal.addEventListener('click', () => this.closeAuthModal());
 
-        // Toggle between login and signup
+        // Toggle login/signup
         this.toggleForm.addEventListener('click', (e) => {
             e.preventDefault();
             this.toggleAuthMode();
         });
 
-        // Form submission
+        // Email/Password submit
         this.authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleAuthSubmit();
         });
 
-        // Close modal when clicking outside
+        // Close modal on backdrop click
         this.authModal.addEventListener('click', (e) => {
-            if (e.target === this.authModal) {
-                this.closeAuthModal();
-            }
+            if (e.target === this.authModal) this.closeAuthModal();
         });
 
-        // Social login buttons
-        document.querySelectorAll('.social-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                showToast('সোশাল লগইন ফিচারটি শীঘ্রই আসছে!', 'success');
+        // 🔥 Google Login (Firebase)
+        const googleBtn = document.querySelector('.google-btn');
+        if (googleBtn) {
+            googleBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                console.log('🔥 Google login start');
+
+                try {
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    const result = await firebase.auth().signInWithPopup(provider);
+
+                    const user = result.user;
+
+                    // Save minimal user to localStorage (for UI)
+                    userStorage.setCurrentUser({
+                        email: user.email,
+                        provider: 'google'
+                    });
+
+                    console.log('✅ Google User:', user.email);
+                    showToast?.('Google দিয়ে লগইন সফল ✅', 'success');
+
+                    this.closeAuthModal();
+                    this.refreshLoginButton();
+
+                } catch (err) {
+                    console.error('❌ Google login error:', err);
+                    showToast?.(err.message, 'error');
+                }
             });
-        });
+        }
     }
 
     openAuthModal() {
@@ -91,14 +122,13 @@ class AuthHandler {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
 
-        // Validate inputs
         if (!email || !password) {
-            showToast('সব ফিল্ড পূরণ করুন।', 'error');
+            showToast?.('সব ফিল্ড পূরণ করুন।', 'error');
             return;
         }
 
         if (!this.isValidEmail(email)) {
-            showToast('বৈধ ইমেইল দিন।', 'error');
+            showToast?.('বৈধ ইমেইল দিন।', 'error');
             return;
         }
 
@@ -113,11 +143,11 @@ class AuthHandler {
         const result = userStorage.loginUser(email, password);
 
         if (result.success) {
-            showToast(result.message, 'success');
+            showToast?.(result.message, 'success');
             this.closeAuthModal();
-            this.updateUIForLoggedInUser();
+            this.refreshLoginButton();
         } else {
-            showToast(result.message, 'error');
+            showToast?.(result.message, 'error');
         }
     }
 
@@ -125,55 +155,40 @@ class AuthHandler {
         const result = userStorage.registerUser(email, password);
 
         if (result.success) {
-            showToast(result.message, 'success');
-            // Auto-login after signup
-            this.isLoginMode = true;
-            this.authForm.reset();
-            // Close modal and show login
-            setTimeout(() => {
-                this.closeAuthModal();
-                this.updateUIForLoggedInUser();
-            }, 1000);
+            showToast?.(result.message, 'success');
+            this.closeAuthModal();
+            this.refreshLoginButton();
         } else {
-            showToast(result.message, 'error');
+            showToast?.(result.message, 'error');
         }
     }
 
-    updateUIForLoggedInUser() {
+    refreshLoginButton() {
         const currentUser = userStorage.getCurrentUser();
-        
+
         if (currentUser) {
-            // User is logged in
             this.loginBtn.innerHTML = `<i class="fas fa-user"></i> ${currentUser.email.split('@')[0]}`;
-            this.loginBtn.addEventListener('click', (e) => {
-                if (this.loginBtn.classList.contains('logout-btn')) {
-                    e.preventDefault();
-                    this.handleLogout();
-                }
-            });
             this.loginBtn.classList.add('logged-in');
             this.loginBtn.title = 'ক্লিক করে লগআউট করুন';
+        } else {
+            this.loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> লগ-ইন';
+            this.loginBtn.classList.remove('logged-in');
+            this.loginBtn.title = '';
         }
     }
 
     handleLogout() {
         userStorage.logoutUser();
-        showToast('সফলভাবে লগআউট করা হয়েছে!', 'success');
-        this.loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> লগইন';
-        this.loginBtn.classList.remove('logged-in');
-        this.loginBtn.title = '';
-        this.loginBtn.addEventListener('click', () => {
-            this.openAuthModal();
-        });
+        showToast?.('সফলভাবে লগআউট করা হয়েছে!', 'success');
+        this.refreshLoginButton();
     }
 
     isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 }
 
-// Initialize auth handler when DOM is ready
+// Init AuthHandler
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('auth-modal')) {
         window.authHandler = new AuthHandler();

@@ -7,37 +7,64 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SolaimanLipi:wght@400;500;600&family=Hind+Siliguri:wght@300;400;500&family=Kalpurush&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
 <body>
     <!-- Floating Background Animation -->
     <div id="floating-bg"></div>
 
     <!-- Header -->
-    <header>
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-quote-left"></i>
-                <span>CaptionLagbe</span>
-            </div>
-            
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="home">
-                    <i class="fas fa-home"></i> হোম
-                </a>
-                <a href="#" class="nav-link" data-page="profile">
-                    <i class="fas fa-user"></i> প্রোফাইল
-                </a>
-                <a href="#" class="nav-link" id="upload-link">
-                    <i class="fas fa-cloud-upload-alt"></i> আপলোড
-                </a>
-            </div>
+<header>
+    <div class="nav-container">
 
-            <a href="#" class="login-btn-header" id="login-btn">
-                <i class="fas fa-sign-in-alt"></i> লগ-ইন
+        <!-- Hamburger (Mobile only) -->
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <!-- Logo -->
+        <div class="logo">
+            <i class="fas fa-quote-left"></i>
+            <span>CaptionLagbe</span>
+        </div>
+        
+        <!-- Desktop Nav -->
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-page="home">
+                <i class="fas fa-home"></i> হোম
+            </a>
+            <a href="#" class="nav-link" data-page="profile">
+                <i class="fas fa-user"></i> প্রোফাইল
+            </a>
+            <a href="#" class="nav-link" id="upload-link" data-action="upload">
+                <i class="fas fa-cloud-upload-alt"></i> আপলোড
             </a>
         </div>
-    </header>
+
+        <!-- Login -->
+        <a href="#" class="login-btn-header" id="login-btn">
+            <i class="fas fa-sign-in-alt"></i> লগ-ইন
+        </a>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" data-page="home">
+            <i class="fas fa-home"></i> হোম
+        </a>
+        <a href="#" data-page="profile">
+            <i class="fas fa-user"></i> প্রোফাইল
+        </a>
+        <a href="#" id="upload-link-mobile" data-action="upload">
+            <i class="fas fa-cloud-upload-alt"></i> আপলোড
+        </a>
+    </div>
+</header>
+
+
 
     <!-- Main Content -->
     <div class="main-container">
@@ -158,9 +185,23 @@
         <i class="fas fa-check-circle"></i>
         <span id="toast-message">ক্যাপশন কপি করা হয়েছে!</span>
     </div>
+
+    <!-- Firebase (Auth) SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+<!-- Firebase config file -->
+<script src="js/firebase.js"></script>
+
+
+
     <!-- Scripts: User Storage, Authentication, and Main App -->
-    <script src="userStorage.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
+    <script src="js/userStorage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
